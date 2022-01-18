@@ -5,6 +5,7 @@ import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/feeds_screen.dart';
 import 'package:full_ecommerce_app/screens/home_screen.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
+import 'package:full_ecommerce_app/screens/inner_screens/product_detail_screen.dart';
 import 'package:full_ecommerce_app/screens/search_screen.dart';
 import 'package:full_ecommerce_app/screens/user_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
@@ -31,12 +32,13 @@ class MyApp extends StatelessWidget {
           routes: {
             BottomNavScreen.routeName: (ctx) => const BottomNavScreen(),
             HomeScreen.routeName: (ctx) => const HomeScreen(),
-            FeedsScreen.routeName: (ctx) => const FeedsScreen(),
+            FeedsScreen.routeName: (ctx) => FeedsScreen(),
             SearchScreen.routeName: (ctx) => const SearchScreen(),
             CartScreen.routeName: (ctx) => const CartScreen(),
             UserScreen.routeName: (ctx) => const UserScreen(),
             BrandsNavRailScreen.routeName: (ctx) => const BrandsNavRailScreen(),
             WishListScreen.routeName: (ctx) => const WishListScreen(),
+            ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
           },
         );
       }),
