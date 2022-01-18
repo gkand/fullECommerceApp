@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/providers/my_theme.dart';
+import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
 class UserScreen extends StatefulWidget {
@@ -77,7 +78,10 @@ class _UserScreenState extends State<UserScreen> {
                       const _userTileText(text: 'User Bag'),
                       const _userTileHeightSpace(height: 8),
                       _userListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(WishListScreen.routeName);
+                        },
                         lIcon: Icons.favorite,
                         color: Colors.redAccent,
                         title: 'Whislist',

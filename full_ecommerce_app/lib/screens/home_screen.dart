@@ -2,6 +2,8 @@ import 'package:backdrop/backdrop.dart';
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
+import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:full_ecommerce_app/widgets/back_layer.dart';
 import 'package:full_ecommerce_app/widgets/category.dart';
 import 'package:full_ecommerce_app/widgets/popular_products.dart';
@@ -45,8 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(WishListScreen.routeName);
+              },
+              icon: const Icon(Icons.favorite),
+            ),
+            IconButton(
               onPressed: () {},
-              icon: CircleAvatar(
+              icon: const CircleAvatar(
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
                   radius: 14,
@@ -108,7 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Popular Brands',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('View All'))
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                            BrandsNavRailScreen.routeName,
+                            arguments: 7);
+                      },
+                      child: const Text('View All'))
                 ],
               ),
             ),
@@ -117,6 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 200,
               width: double.infinity,
               child: Swiper(
+                onTap: (index) {
+                  Navigator.of(context).pushNamed(BrandsNavRailScreen.routeName,
+                      arguments: index);
+                },
                 autoplay: true,
                 viewportFraction: 0.8,
                 scale: 0.9,

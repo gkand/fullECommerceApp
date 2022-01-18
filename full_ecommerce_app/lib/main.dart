@@ -4,8 +4,10 @@ import 'package:full_ecommerce_app/screens/bottom_nav_screen.dart';
 import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/feeds_screen.dart';
 import 'package:full_ecommerce_app/screens/home_screen.dart';
+import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
 import 'package:full_ecommerce_app/screens/search_screen.dart';
 import 'package:full_ecommerce_app/screens/user_screen.dart';
+import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
             SearchScreen.routeName: (ctx) => const SearchScreen(),
             CartScreen.routeName: (ctx) => const CartScreen(),
             UserScreen.routeName: (ctx) => const UserScreen(),
+            BrandsNavRailScreen.routeName: (ctx) => const BrandsNavRailScreen(),
+            WishListScreen.routeName: (ctx) => const WishListScreen(),
           },
         );
       }),
