@@ -59,4 +59,31 @@ class CartProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  void decrementCartProductQuantity(
+      String productId, String title, String imageUrl, double price) {
+    if (_cartList.containsKey(productId)) {
+      _cartList.update(
+        productId,
+        (value) => Cart(
+          cartId: value.cartId,
+          title: value.title,
+          imageUrl: value.imageUrl,
+          price: value.price,
+          quantity: value.quantity - 1,
+        ),
+      );
+    }
+    notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    _cartList.remove(productId);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _cartList.clear();
+    notifyListeners();
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class EmptyCard extends StatelessWidget {
-  const EmptyCard({Key? key}) : super(key: key);
+class EmptyCart extends StatelessWidget {
+  const EmptyCart({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

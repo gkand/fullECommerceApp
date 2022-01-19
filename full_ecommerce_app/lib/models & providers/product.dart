@@ -94,19 +94,6 @@ class ProductProvider with ChangeNotifier {
         isFavorite: false,
         isPopular: false),
     Product(
-        id: 'Apple MacBook Air',
-        title: 'Apple MacBook Air',
-        description:
-            'Apple MacBook Air 13.3" with Retina Display, 1.1GHz Quad-Core Intel Core i5, 8GB Memory, 256GB SSD, Silver (Early 2020)',
-        price: 780.99,
-        imageUrl:
-            'https://images-na.ssl-images-amazon.com/images/I/61QRQHn0jJL._AC_SL1200_.jpg',
-        brand: 'Apple',
-        productCategoryName: 'Laptops',
-        quantity: 4455,
-        isFavorite: false,
-        isPopular: true),
-    Product(
         id: 'Apple 16 MacBook Pro',
         title: 'Apple 16 MacBook Pro',
         description:
