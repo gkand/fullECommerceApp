@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
 class FullCard extends StatefulWidget {
-  const FullCard({Key? key}) : super(key: key);
+  final String productId;
+  final String id;
+  final String title;
+  final String imageUrl;
+  final int quantity;
+  final double price;
+
+  const FullCard({
+    Key? key,
+    required this.productId,
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+    required this.quantity,
+    required this.price,
+  }) : super(key: key);
 
   @override
   _FullCardState createState() => _FullCardState();
@@ -29,11 +44,11 @@ class _FullCardState extends State<FullCard> {
           children: [
             Container(
               width: 130,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.grey,
                 image: DecorationImage(
                   image: NetworkImage(
-                    'https://images.pexels.com/photos/3210711/pexels-photo-3210711.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                    widget.imageUrl,
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -47,11 +62,11 @@ class _FullCardState extends State<FullCard> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Flexible(
+                      Flexible(
                         child: Text(
-                          'Monitor 2',
+                          widget.title,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
@@ -79,13 +94,14 @@ class _FullCardState extends State<FullCard> {
                         ),
                       ),
                       Flexible(
-                        child: Text('\$ 450.00',
+                        child: Text('\$${widget.price}',
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 16)),
                       ),
                     ],
                   ),
                   Row(
+                    // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       const Text(
                         'SubTotal : ',
@@ -93,7 +109,7 @@ class _FullCardState extends State<FullCard> {
                           fontSize: 16,
                         ),
                       ),
-                      Flexible(
+                      const Flexible(
                         child: Text('\$ 450.00',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 16)),
@@ -101,8 +117,8 @@ class _FullCardState extends State<FullCard> {
                     ],
                   ),
                   Row(
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'Shipping : ',
                         style: TextStyle(
                           fontSize: 16,
@@ -120,7 +136,7 @@ class _FullCardState extends State<FullCard> {
                     children: [
                       TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           '-',
                           style: TextStyle(
                             fontSize: 25,
@@ -128,14 +144,14 @@ class _FullCardState extends State<FullCard> {
                         ),
                       ),
                       Text(
-                        '1',
-                        style: TextStyle(
+                        widget.quantity.toString(),
+                        style: const TextStyle(
                           fontSize: 20,
                         ),
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           '+',
                           style: TextStyle(
                             fontSize: 25,

@@ -1,5 +1,7 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
-import 'package:full_ecommerce_app/providers/my_theme.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/my_theme.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 

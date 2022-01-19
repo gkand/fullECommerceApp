@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 
 class BackLayer extends StatelessWidget {
@@ -7,8 +9,8 @@ class BackLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        _rotatedBox(top: -100, left: -28),
-        _rotatedBox(top: -100, left: 200),
+        const _rotatedBox(top: -100, left: -28),
+        const _rotatedBox(top: -100, left: 200),
         SingleChildScrollView(
           child: Center(
             child: Column(
@@ -22,7 +24,7 @@ class BackLayer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Image.network(
                       "https://avatars0.githubusercontent.com/u/8186664?s=460&u=f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8&v=4",
                     ),

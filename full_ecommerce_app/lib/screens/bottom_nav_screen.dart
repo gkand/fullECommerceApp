@@ -16,7 +16,7 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   final List _pages = [
     const HomeScreen(),
-    FeedsScreen(),
+    const FeedsScreen(),
     const SearchScreen(),
     const CartScreen(),
     const UserScreen(),

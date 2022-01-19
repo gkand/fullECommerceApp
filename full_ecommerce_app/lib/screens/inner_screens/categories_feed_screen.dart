@@ -3,25 +3,21 @@ import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
 import 'package:full_ecommerce_app/widgets/feeds_product.dart';
 import 'package:provider/provider.dart';
 
-class FeedsScreen extends StatelessWidget {
-  static const routeName = '/feeds-screen';
+class CategoriesFeedScreen extends StatelessWidget {
+  static const routeName = '/categories-feeds-screen';
 
-  const FeedsScreen({Key? key}) : super(key: key);
+  const CategoriesFeedScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
-    final popular = ModalRoute.of(context)!.settings.arguments.toString();
-    List<Product> _products = [];
-    _products = productProvider.products();
+    final catName = ModalRoute.of(context)!.settings.arguments as String;
 
-    if (popular == 'popular') {
-      _products = productProvider.popularProducts;
-    }
+    final productProvider = Provider.of<ProductProvider>(context);
+    List<Product> _products = productProvider.getByCatName(catName);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Feeds Screen'),
+        title: Text(catName.toString()),
         centerTitle: true,
       ),
       body: Padding(

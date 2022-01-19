@@ -12,12 +12,12 @@ class WishListScreen extends StatelessWidget {
     List _products = [];
 
     return !_products.isEmpty
-        ? Scaffold(
+        ? const Scaffold(
             body: EmptyWishListScreen(),
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text('Whislist'),
+              title: const Text('Whislist'),
               centerTitle: true,
               actions: [
                 IconButton(
@@ -27,11 +27,11 @@ class WishListScreen extends StatelessWidget {
               ],
             ),
             body: Container(
-              margin: EdgeInsets.only(bottom: 60),
+              margin: const EdgeInsets.only(bottom: 60),
               child: ListView.builder(
                   itemCount: 10,
                   itemBuilder: (ctx, i) {
-                    return FullWishListWidget();
+                    return const FullWishListWidget();
                   }),
             ),
           );

@@ -2,11 +2,14 @@ import 'package:backdrop/backdrop.dart';
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
+import 'package:full_ecommerce_app/screens/feeds_screen.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:full_ecommerce_app/widgets/back_layer.dart';
 import 'package:full_ecommerce_app/widgets/category.dart';
 import 'package:full_ecommerce_app/widgets/popular_products.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -37,12 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final productData = Provider.of<ProductProvider>(context);
+    final popularProducts = productData.popularProducts;
+
     return Scaffold(
       body: BackdropScaffold(
         headerHeight: MediaQuery.of(context).size.height * 0.4,
         appBar: BackdropAppBar(
-          title: Text("Flutter Shop"),
-          leading: BackdropToggleButton(
+          title: const Text("Flutter Shop"),
+          leading: const BackdropToggleButton(
             icon: AnimatedIcons.home_menu,
           ),
           actions: [
@@ -81,9 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
                 'Categories',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
@@ -163,7 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Popular Products',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('View All'))
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(FeedsScreen.routeName,
+                            arguments: 'popular');
+                      },
+                      child: const Text('View All'))
                 ],
               ),
             ),
@@ -173,9 +184,12 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.infinity,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 30,
+                itemCount: popularProducts.length,
                 itemBuilder: (context, index) {
-                  return PopularProducts();
+                  return ChangeNotifierProvider.value(
+                    value: popularProducts[index],
+                    child: const PopularProducts(),
+                  );
                 },
               ),
             ),

@@ -1,7 +1,12 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
 import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:full_ecommerce_app/widgets/feeds_product.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product-detail-screen';
@@ -15,8 +20,20 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final productId = ModalRoute.of(context)!.settings.arguments as String;
+
+    final _productProvider = Provider.of<ProductProvider>(context);
+    List<Product> _products = _productProvider.products();
+    final _cartProvider = Provider.of<CartProvider>(context);
+
+    final _product = _productProvider.getById(productId);
+
     return Scaffold(
-      bottomSheet: const _bottomSheet(),
+      bottomSheet: _bottomSheet(
+        cartProvider: _cartProvider,
+        product: _product,
+        productId: productId,
+      ),
       appBar: AppBar(
         title: const Text('Details'),
         centerTitle: true,
@@ -38,11 +55,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       body: Stack(
         children: [
           Container(
-            foregroundDecoration: BoxDecoration(color: Colors.black12),
+            foregroundDecoration: const BoxDecoration(color: Colors.black12),
             height: MediaQuery.of(context).size.height * 0.45,
             width: double.infinity,
             child: Image.network(
-              'https://images.pexels.com/photos/5058216/pexels-photo-5058216.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+              _product.imageUrl,
             ),
           ),
           SingleChildScrollView(
@@ -77,18 +94,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: Text(
-                                'Title',
-                                style: TextStyle(
+                                ' ${_product.title}',
+                                style: const TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.w600),
                               ),
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              '\$250.00',
-                              style: TextStyle(
+                              '\$ ${_product.price}',
+                              style: const TextStyle(
                                   fontSize: 21,
                                   color: Colors.purple,
                                   fontWeight: FontWeight.w600),
@@ -97,8 +114,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       const SizedBox(height: 3),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Divider(
                           thickness: 1,
                           color: Colors.grey,
@@ -109,16 +126,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: Text(
-                          'Description',
-                          style: TextStyle(
+                          ' ${_product.description}',
+                          style: const TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                       const SizedBox(height: 3),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
                         child: Divider(
                           thickness: 1,
                           color: Colors.grey,
@@ -127,19 +144,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       _contentRow(
                         title: 'Brand',
-                        nameTitle: ' Brand Name',
+                        nameTitle: ' ${_product.brand}',
                       ),
                       _contentRow(
                         title: 'Quantity',
-                        nameTitle: ' 12 left',
+                        nameTitle: ' ${_product.quantity}',
                       ),
                       _contentRow(
                         title: 'Category',
-                        nameTitle: ' Category Name',
+                        nameTitle: ' ${_product.productCategoryName}',
                       ),
                       _contentRow(
                         title: 'Popularity',
-                        nameTitle: ' Popular',
+                        nameTitle: _product.isPopular ? ' Popular' : ' Barely',
                       ),
                       const SizedBox(height: 15),
                       const Divider(
@@ -152,10 +169,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 10),
+                          children: const [
+                            SizedBox(height: 10),
                             Padding(
-                              padding: const EdgeInsets.all(8),
+                              padding: EdgeInsets.all(8),
                               child: Text(
                                 'No review yet',
                                 style: TextStyle(
@@ -164,7 +181,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8),
+                              padding: EdgeInsets.all(8),
                               child: Text(
                                 'Be the first to review this product',
                                 style: TextStyle(
@@ -173,8 +190,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 70),
-                            const Divider(
+                            SizedBox(height: 70),
+                            Divider(
                               thickness: 1,
                               color: Colors.grey,
                               height: 1,
@@ -188,7 +205,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(8),
-                  child: Text(
+                  child: const Text(
                     'Suggested Products',
                     style: TextStyle(
                       fontSize: 20,
@@ -196,21 +213,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                 ),
-                // Container(
-                //   margin: const EdgeInsets.only(bottom: 30),
-                //   width: double.infinity,
-                //   height: 300,
-                //   child: ListView.builder(
-                //     scrollDirection: Axis.horizontal,
-                //     itemCount: 7,
-                //     itemBuilder: (context, index) {
-                //       return Padding(
-                //         padding: const EdgeInsets.all(8),
-                //         child: FeedsProduct(),
-                //       );
-                //     },
-                //   ),
-                // ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  width: double.infinity,
+                  height: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 7,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: SizedBox(
+                          width: 200,
+                          child: ChangeNotifierProvider.value(
+                            value: _products[index],
+                            child: const FeedsProduct(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           )
@@ -232,7 +255,7 @@ class _contentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 15, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 15, left: 16, right: 16),
       child: Row(
         children: [
           Text(
@@ -255,8 +278,14 @@ class _contentRow extends StatelessWidget {
 }
 
 class _bottomSheet extends StatelessWidget {
+  final String productId;
+  final Product product;
+  final CartProvider cartProvider;
   const _bottomSheet({
     Key? key,
+    required this.productId,
+    required this.product,
+    required this.cartProvider,
   }) : super(key: key);
 
   @override
@@ -270,8 +299,15 @@ class _bottomSheet extends StatelessWidget {
             height: 50,
             child: Center(
               child: TextButton(
-                onPressed: () {},
-                child: Text(
+                onPressed: () {
+                  cartProvider.addToCart(
+                    productId,
+                    product.title,
+                    product.imageUrl,
+                    product.price,
+                  );
+                },
+                child: const Text(
                   'ADD TO CART',
                   style: TextStyle(
                     fontSize: 18,
@@ -290,7 +326,7 @@ class _bottomSheet extends StatelessWidget {
             child: Center(
               child: TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   'BUY NOW',
                   style: TextStyle(
                     fontSize: 18,

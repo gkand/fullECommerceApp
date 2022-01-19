@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
 import 'package:full_ecommerce_app/widgets/empty_card.dart';
 import 'package:full_ecommerce_app/widgets/full_card.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart-screen';
@@ -9,15 +11,15 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _products = [];
+    final cartProvider = Provider.of<CartProvider>(context);
 
-    return !_products.isEmpty
-        ? Scaffold(
+    return cartProvider.cartList.isEmpty
+        ? const Scaffold(
             body: EmptyCard(),
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text('Cart'),
+              title: const Text('Cart'),
               centerTitle: true,
               actions: [
                 IconButton(
@@ -27,11 +29,20 @@ class CartScreen extends StatelessWidget {
               ],
             ),
             body: Container(
-              margin: EdgeInsets.only(bottom: 60),
+              margin: const EdgeInsets.only(bottom: 60),
               child: ListView.builder(
-                  itemCount: 10,
+                  itemCount: cartProvider.cartList.length,
                   itemBuilder: (ctx, i) {
-                    return FullCard();
+                    return FullCard(
+                      productId: cartProvider.cartList.keys.toList()[i],
+                      id: cartProvider.cartList.values.toList()[i].cartId,
+                      imageUrl:
+                          cartProvider.cartList.values.toList()[i].imageUrl,
+                      title: cartProvider.cartList.values.toList()[i].title,
+                      price: cartProvider.cartList.values.toList()[i].price,
+                      quantity:
+                          cartProvider.cartList.values.toList()[i].quantity,
+                    );
                   }),
             ),
             bottomSheet: _bottonCheckOutSection(),
@@ -47,7 +58,7 @@ Widget _bottonCheckOutSection() {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          const Expanded(
             child: Text(
               'Total: \$ 450.00',
               overflow: TextOverflow.ellipsis,
@@ -58,7 +69,7 @@ Widget _bottonCheckOutSection() {
           ),
           ElevatedButton(
             onPressed: () {},
-            child: Text(
+            child: const Text(
               '   C H E C K O U T   ',
               style: TextStyle(
                 color: Colors.white,

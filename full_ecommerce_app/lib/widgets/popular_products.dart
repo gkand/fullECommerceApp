@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
+import 'package:full_ecommerce_app/screens/inner_screens/product_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class PopularProducts extends StatelessWidget {
   const PopularProducts({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _productsAttribute = Provider.of<Product>(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -22,14 +27,25 @@ class PopularProducts extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 190,
                   width: 250,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      "https://images.pexels.com/photos/3210711/pexels-photo-3210711.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                      fit: BoxFit.cover,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        ProductDetailScreen.routeName,
+                        arguments: _productsAttribute.id,
+                      );
+                    },
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                      child: Image.network(
+                        _productsAttribute.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -38,7 +54,7 @@ class PopularProducts extends StatelessWidget {
                   right: 12,
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.favorite),
+                    icon: const Icon(Icons.favorite),
                   ),
                 ),
                 Positioned(
@@ -50,8 +66,8 @@ class PopularProducts extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Card(
                         child: Text(
-                          '\$ 250.00',
-                          style: TextStyle(fontSize: 16),
+                          '\$ ${_productsAttribute.price}',
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
@@ -63,10 +79,10 @@ class PopularProducts extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                ' Name',
+                ' ${_productsAttribute.title}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
             const SizedBox(height: 10),
@@ -77,15 +93,15 @@ class PopularProducts extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      ' Description ',
+                      ' ${_productsAttribute.description} ',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Icon(Icons.shopping_cart),
+                    child: const Icon(Icons.shopping_cart),
                   )
                 ],
               ),

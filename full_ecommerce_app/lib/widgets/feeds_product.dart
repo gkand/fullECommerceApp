@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/product_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class FeedsProduct extends StatefulWidget {
-  final String id;
-  final String description;
-  final double price;
-  final String imageUrl;
-  final int quantity;
-  final bool isFavorite;
-
-  const FeedsProduct({
-    Key? key,
-    required this.id,
-    required this.description,
-    required this.price,
-    required this.imageUrl,
-    required this.quantity,
-    required this.isFavorite,
-  }) : super(key: key);
+  const FeedsProduct({Key? key}) : super(key: key);
 
   @override
   _FeedsProductState createState() => _FeedsProductState();
@@ -27,9 +14,13 @@ class FeedsProduct extends StatefulWidget {
 class _FeedsProductState extends State<FeedsProduct> {
   @override
   Widget build(BuildContext context) {
+    final _productsAttribute = Provider.of<Product>(context);
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ProductDetailScreen.routeName);
+        Navigator.of(context).pushNamed(
+          ProductDetailScreen.routeName,
+          arguments: _productsAttribute.id,
+        );
       },
       child: Stack(
         children: [
@@ -48,34 +39,34 @@ class _FeedsProductState extends State<FeedsProduct> {
                         minHeight: 130,
                         maxHeight: MediaQuery.of(context).size.height * 0.24),
                     child: Image.network(
-                      widget.imageUrl,
+                      _productsAttribute.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
                   Text(
-                    widget.description,
+                    _productsAttribute.description,
                     maxLines: 1,
                     style: const TextStyle(
                       fontSize: 18,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
-                    '\$ ${widget.price}',
+                    '\$ ${_productsAttribute.price}',
                     maxLines: 1,
                     style: const TextStyle(
                       fontSize: 12,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Quantoity ${widget.quantity} left',
+                        'Quantoity ${_productsAttribute.quantity} left',
                         maxLines: 1,
                         style: const TextStyle(
                           color: Colors.grey,
@@ -99,9 +90,9 @@ class _FeedsProductState extends State<FeedsProduct> {
             shape: BadgeShape.square,
             badgeColor: Colors.deepOrangeAccent,
             borderRadius: BorderRadius.circular(8),
-            badgeContent: Text(
+            badgeContent: const Text(
               'NEW',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white),
             ),
           ),
         ],

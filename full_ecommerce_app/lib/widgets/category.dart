@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/screens/inner_screens/categories_feed_screen.dart';
 
-class Category extends StatelessWidget {
+// ignore: must_be_immutable
+class Category extends StatefulWidget {
   late int index;
   Category({Key? key, required this.index}) : super(key: key);
 
-  List<Map<String, Object>> _categories = [
+  @override
+  State<Category> createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  final List<Map<String, Object>> _categories = [
     {
       'categoryName': 'Phones',
       'categoryImage': 'assets/images/CatPhones.png',
@@ -41,36 +48,44 @@ class Category extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      width: 150,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 2,
-          color: Colors.grey,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          CategoriesFeedScreen.routeName,
+          arguments: _categories[widget.index]['categoryName'],
+        );
+      },
+      child: Container(
+        height: 200,
+        width: 150,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 2,
+            color: Colors.grey,
+          ),
+          borderRadius: BorderRadius.circular(12),
         ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 150,
-            width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                (_categories[index]['categoryImage'].toString()),
-                fit: BoxFit.cover,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 150,
+              width: 150,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  (_categories[widget.index]['categoryImage'].toString()),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            ' ${_categories[index]['categoryName']}',
-            style: TextStyle(fontSize: 20),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Text(
+              ' ${_categories[widget.index]['categoryName']}',
+              style: const TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
       ),
     );
   }
