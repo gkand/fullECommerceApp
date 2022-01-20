@@ -1,8 +1,10 @@
 // ignore_for_file: camel_case_types
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
 import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:full_ecommerce_app/widgets/feeds_product.dart';
@@ -27,27 +29,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final _cartProvider = Provider.of<CartProvider>(context);
 
     final _product = _productProvider.getById(productId);
+    final _whisListProvider = Provider.of<WishListProvider>(context);
 
     return Scaffold(
       bottomSheet: _bottomSheet(
         cartProvider: _cartProvider,
         product: _product,
         productId: productId,
+        wishListProvider: _whisListProvider,
       ),
       appBar: AppBar(
         title: const Text('Details'),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.of(context).pushNamed(WishListScreen.routeName);
+          Consumer<WishListProvider>(
+            builder: (context, wp, _) {
+              return Badge(
+                toAnimate: true,
+                animationType: BadgeAnimationType.slide,
+                position: BadgePosition.topEnd(top: 5, end: 7),
+                badgeContent: Text(wp.wishList.length.toString()),
+                child: IconButton(
+                  icon: const Icon(Icons.favorite),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(WishListScreen.routeName);
+                  },
+                ),
+              );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.of(context).pushNamed(CartScreen.routeName);
+          Consumer<CartProvider>(
+            builder: (context, cp, _) {
+              return Badge(
+                toAnimate: true,
+                animationType: BadgeAnimationType.slide,
+                position: BadgePosition.topEnd(top: 5, end: 7),
+                badgeContent: Text(cp.cartList.length.toString()),
+                child: IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(CartScreen.routeName);
+                  },
+                ),
+              );
             },
           ),
         ],
@@ -281,12 +305,15 @@ class _bottomSheet extends StatelessWidget {
   final String productId;
   final Product product;
   final CartProvider cartProvider;
-  const _bottomSheet({
-    Key? key,
-    required this.productId,
-    required this.product,
-    required this.cartProvider,
-  }) : super(key: key);
+  final WishListProvider wishListProvider;
+
+  const _bottomSheet(
+      {Key? key,
+      required this.productId,
+      required this.product,
+      required this.cartProvider,
+      required this.wishListProvider})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -348,8 +375,18 @@ class _bottomSheet extends StatelessWidget {
             height: 50,
             child: Center(
                 child: IconButton(
-              icon: const Icon(Icons.favorite_border),
-              onPressed: () {},
+              icon: wishListProvider.wishList.containsKey(productId)
+                  ? const Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    )
+                  : const Icon(
+                      Icons.favorite_border,
+                    ),
+              onPressed: () {
+                wishListProvider.addOrRemoveWishList(
+                    productId, product.title, product.imageUrl, product.price);
+              },
             )),
           ),
         ),

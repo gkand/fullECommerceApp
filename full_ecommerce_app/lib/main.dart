@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/my_theme.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
 import 'package:full_ecommerce_app/screens/bottom_nav_screen.dart';
 import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/feeds_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => ThemeNotifier()),
         ChangeNotifierProvider(create: (ctx) => ProductProvider()),
         ChangeNotifierProvider(create: (ctx) => CartProvider()),
+        ChangeNotifierProvider(create: (ctx) => WishListProvider()),
       ],
       child: Consumer<ThemeNotifier>(builder: (context, notifier, _) {
         return MaterialApp(

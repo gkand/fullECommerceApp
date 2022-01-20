@@ -1,8 +1,10 @@
 import 'package:backdrop/backdrop.dart';
+import 'package:badges/badges.dart';
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
 import 'package:full_ecommerce_app/screens/feeds_screen.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
@@ -52,11 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: AnimatedIcons.home_menu,
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(WishListScreen.routeName);
+            Consumer<WishListProvider>(
+              builder: (context, wp, _) {
+                return Badge(
+                  toAnimate: true,
+                  animationType: BadgeAnimationType.slide,
+                  position: BadgePosition.topEnd(top: 5, end: 7),
+                  badgeContent: Text(wp.wishList.length.toString()),
+                  child: IconButton(
+                    icon: const Icon(Icons.favorite),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(WishListScreen.routeName);
+                    },
+                  ),
+                );
               },
-              icon: const Icon(Icons.favorite),
             ),
             IconButton(
               onPressed: () {},

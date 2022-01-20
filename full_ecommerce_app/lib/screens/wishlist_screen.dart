@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
+import 'package:full_ecommerce_app/services/global_methods.dart';
 import 'package:full_ecommerce_app/widgets/empty_wishlist.dart';
 import 'package:full_ecommerce_app/widgets/full_wishlist.dart';
+import 'package:provider/provider.dart';
 
 class WishListScreen extends StatelessWidget {
   static const routeName = '/wishlist-screen';
@@ -9,31 +12,36 @@ class WishListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List _products = [];
-
-    return !_products.isEmpty
+    final wishlistProvider = Provider.of<WishListProvider>(context);
+    GlobalMethods _globalMethods = GlobalMethods();
+    return wishlistProvider.wishList.isEmpty
         ? const Scaffold(
             body: EmptyWishListScreen(),
           )
         : Scaffold(
             appBar: AppBar(
-              title: const Text('Whislist'),
+              title: Text('Whislist (${wishlistProvider.wishList.length})'),
               centerTitle: true,
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _globalMethods.showDialogue(
+                        context, () => wishlistProvider.clearWishList());
+                  },
                   icon: const Icon(Icons.delete),
                 ),
               ],
             ),
-            body: Container(
-              margin: const EdgeInsets.only(bottom: 60),
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (ctx, i) {
-                    return const FullWishListWidget();
-                  }),
-            ),
+            body: ListView.builder(
+                itemCount: wishlistProvider.wishList.length,
+                itemBuilder: (ctx, i) {
+                  return ChangeNotifierProvider.value(
+                    value: wishlistProvider.wishList.values.toList()[i],
+                    child: FullWishListWidget(
+                      productId: wishlistProvider.wishList.keys.toList()[i],
+                    ),
+                  );
+                }),
           );
   }
 }

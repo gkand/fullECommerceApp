@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/screens/home_screen.dart';
 
 class EmptyWishListScreen extends StatelessWidget {
   const EmptyWishListScreen({Key? key}) : super(key: key);
@@ -40,7 +41,9 @@ class EmptyWishListScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                //Navigator.of(context).pushNamed(HomeScreen.routeName);
+              },
               child: const Text(
                 'Shop Now',
                 style: TextStyle(

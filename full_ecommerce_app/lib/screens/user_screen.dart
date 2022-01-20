@@ -1,7 +1,11 @@
 // ignore_for_file: camel_case_types
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/my_theme.dart';
+import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
+import 'package:full_ecommerce_app/screens/cart_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -79,25 +83,67 @@ class _UserScreenState extends State<UserScreen> {
                     children: [
                       const _userTileText(text: 'User Bag'),
                       const _userTileHeightSpace(height: 8),
-                      _userListTile(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed(WishListScreen.routeName);
+
+                      Consumer<WishListProvider>(
+                        builder: (context, wp, _) {
+                          return Card(
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  WishListScreen.routeName,
+                                );
+                              },
+                              leading: Badge(
+                                toAnimate: true,
+                                animationType: BadgeAnimationType.slide,
+                                badgeColor: Colors.indigo,
+                                position: BadgePosition.topEnd(top: 0, end: 0),
+                                badgeContent: Text(
+                                  wp.wishList.length.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                child: const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 40,
+                                ),
+                              ),
+                              title: const Text('Wishlist'),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                            ),
+                          );
                         },
-                        lIcon: Icons.favorite,
-                        color: Colors.redAccent,
-                        title: 'Whislist',
-                        tIcon: Icons.arrow_forward_ios,
-                        tIconCallback: () {},
                       ),
-                      _userListTile(
-                        lIcon: Icons.shopping_cart,
-                        color: Colors.deepPurpleAccent,
-                        title: 'Cart',
-                        onTap: () {},
-                        tIcon: Icons.arrow_forward_ios,
-                        tIconCallback: () {},
+                      Consumer<CartProvider>(
+                        builder: (context, cp, _) {
+                          return Card(
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  CartScreen.routeName,
+                                );
+                              },
+                              leading: Badge(
+                                toAnimate: true,
+                                animationType: BadgeAnimationType.slide,
+                                position: BadgePosition.topEnd(top: 0, end: 0),
+                                badgeContent: Text(
+                                  cp.cartList.length.toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                child: const Icon(
+                                  Icons.shopping_cart,
+                                  size: 40,
+                                  color: Colors.deepPurpleAccent,
+                                ),
+                              ),
+                              title: const Text('Cart'),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                            ),
+                          );
+                        },
                       ),
+
                       // User Settings
                       const _userTileHeightSpace(height: 15),
                       const _userTileText(text: 'User Settings'),

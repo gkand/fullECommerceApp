@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/screens/home_screen.dart';
 
 class EmptyCart extends StatelessWidget {
   const EmptyCart({Key? key}) : super(key: key);
@@ -40,13 +41,16 @@ class EmptyCart extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                //Navigator.of(context).pushNamed(HomeScreen.routeName);
+              },
               child: const Text(
                 'Shop Now',
                 style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
             ),
           )
