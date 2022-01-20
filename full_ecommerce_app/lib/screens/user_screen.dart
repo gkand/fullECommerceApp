@@ -167,11 +167,23 @@ class _UserScreenState extends State<UserScreen> {
                           );
                         }),
                       ),
+                      _userListTile(
+                        heroTag: 'logout',
+                        lIcon: Icons.power_settings_new,
+                        color: Colors.red,
+                        title: 'Logout',
+                        onTap: () {
+                          Navigator.of(context).canPop()
+                              ? Navigator.pop(context)
+                              : null;
+                        },
+                      ),
                       // User Information
                       const _userTileHeightSpace(height: 15),
                       const _userTileText(text: 'User Information'),
                       const _userTileHeightSpace(height: 10),
                       _userListTile(
+                        heroTag: 'email',
                         lIcon: Icons.email,
                         color: Colors.green,
                         title: 'Email',
@@ -179,6 +191,7 @@ class _UserScreenState extends State<UserScreen> {
                         onTap: () {},
                       ),
                       _userListTile(
+                        heroTag: 'number',
                         lIcon: Icons.call,
                         color: Colors.yellow.shade800,
                         title: 'Phone Number',
@@ -186,13 +199,15 @@ class _UserScreenState extends State<UserScreen> {
                         onTap: () {},
                       ),
                       _userListTile(
+                        heroTag: 'name',
                         lIcon: Icons.local_shipping,
                         color: Colors.indigo,
-                        title: 'Email',
-                        subTitle: 'Email',
+                        title: 'Name',
+                        subTitle: 'Name',
                         onTap: () {},
                       ),
                       _userListTile(
+                        heroTag: 'date',
                         lIcon: Icons.watch_later,
                         color: Colors.redAccent,
                         title: 'Join Date',
@@ -255,36 +270,38 @@ class _userListTile extends StatelessWidget {
   final String title;
   final String? subTitle;
   final IconData? tIcon;
-  final VoidCallback? tIconCallback;
   final VoidCallback? onTap;
+  final String heroTag;
 
-  const _userListTile({
-    this.subTitle,
-    this.tIcon,
-    this.tIconCallback,
-    this.onTap,
-    Key? key,
-    required this.lIcon,
-    required this.color,
-    required this.title,
-  }) : super(key: key);
+  const _userListTile(
+      {this.subTitle,
+      this.tIcon,
+      this.onTap,
+      Key? key,
+      required this.lIcon,
+      required this.color,
+      required this.title,
+      required this.heroTag})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: Icon(
-          lIcon,
-          color: color,
-        ),
-        title: Text(title),
-        subtitle: subTitle == null ? null : Text(subTitle!),
-        onTap: onTap,
-        trailing: IconButton(
-          onPressed: tIconCallback,
-          icon: Icon(
-            tIcon,
+    return Hero(
+      tag: heroTag,
+      child: Card(
+        child: ListTile(
+          leading: Icon(
+            lIcon,
+            color: color,
           ),
+          title: Text(title),
+          subtitle: subTitle == null ? null : Text(subTitle!),
+          onTap: onTap ?? () {},
+          trailing: tIcon != null
+              ? Icon(
+                  tIcon,
+                )
+              : null,
         ),
       ),
     );

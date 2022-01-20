@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:full_ecommerce_app/screens/upload_product_screen.dart';
 
 class BackLayer extends StatelessWidget {
   const BackLayer({Key? key}) : super(key: key);
@@ -33,7 +34,10 @@ class BackLayer extends StatelessWidget {
                 const SizedBox(height: 40),
                 _backLayerButton(
                   icon: Icons.upload,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(UploadProductScreen.routeName);
+                  },
                   title: 'Upload Product',
                 ),
               ],

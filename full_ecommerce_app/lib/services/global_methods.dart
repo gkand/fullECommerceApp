@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:full_ecommerce_app/screens/home_screen.dart';
 
 class GlobalMethods {
   Future<void> showDialogue(BuildContext context, VoidCallback callBack) async {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
-import 'package:full_ecommerce_app/screens/home_screen.dart';
 import 'package:full_ecommerce_app/services/global_methods.dart';
 import 'package:full_ecommerce_app/widgets/empty_cart.dart';
 import 'package:full_ecommerce_app/widgets/full_cart.dart';
