@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/screens/auth/signup_screen.dart';
+import 'package:full_ecommerce_app/services/global_methods.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
@@ -24,11 +26,31 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = '';
   String _password = '';
 
-  void _submitData() {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  bool _isLoading = false;
+  GlobalMethods _globalMethods = GlobalMethods();
+
+  void _submitData() async {
     final _isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
     if (_isValid) {
+      setState(() {
+        _isLoading = true;
+      });
       _formKey.currentState!.save();
+    }
+    try {
+      await _auth
+          .signInWithEmailAndPassword(
+              email: _email.toLowerCase().trim(), password: _password.trim())
+          .then((value) =>
+              Navigator.canPop(context) ? Navigator.pop(context) : null);
+    } catch (error) {
+      _globalMethods.authDialog(context, error.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -142,16 +164,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 30,
                     ),
-                    ElevatedButton(
-                      onPressed: _submitData,
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
+                    _isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : ElevatedButton(
+                            onPressed: _submitData,
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),

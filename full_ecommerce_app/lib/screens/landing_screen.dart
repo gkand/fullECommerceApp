@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:full_ecommerce_app/screens/auth/login_screen.dart';
 import 'package:full_ecommerce_app/screens/auth/signup_screen.dart';
 import 'package:full_ecommerce_app/screens/bottom_nav_screen.dart';
+import 'package:full_ecommerce_app/services/global_methods.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -16,6 +19,46 @@ class _LandingScreenState extends State<LandingScreen>
     with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  GlobalMethods _globalMethods = GlobalMethods();
+  bool _isLoading = false;
+
+  void _signInAnon() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _auth.signInAnonymously().then(
+          (value) => Navigator.canPop(context) ? Navigator.pop(context) : null);
+    } catch (error) {
+      _globalMethods.authDialog(context, error.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _googleSignIn() async {
+    final googleSignIn = GoogleSignIn();
+    final googleAccount = await googleSignIn.signIn();
+
+    if (googleAccount != null) {
+      final googleAuth = await googleAccount.authentication;
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        try {
+          print('TEST');
+          final authResult = await _auth.signInWithCredential(
+              GoogleAuthProvider.credential(
+                  idToken: googleAuth.idToken,
+                  accessToken: googleAuth.accessToken));
+        } catch (e) {
+          _globalMethods.authDialog(context, e.toString());
+        }
+      }
+    }
+  }
 
   final List<String> _images = [
     'assets/images/shopping1.jpeg',
@@ -42,6 +85,12 @@ class _LandingScreenState extends State<LandingScreen>
           });
     _animationController.forward();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -112,21 +161,24 @@ class _LandingScreenState extends State<LandingScreen>
                 const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _googleSignIn,
                     child: const Text('Continue with Google',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(BottomNavScreen.routeName);
-                    },
-                    child: const Text('Go to Guest',
-                        style: TextStyle(color: Colors.white)),
-                  ),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            _signInAnon();
+                          },
+                          child: const Text('Go to Guest',
+                              style: TextStyle(color: Colors.white)),
+                        ),
                 ),
                 const SizedBox(width: 10),
               ],

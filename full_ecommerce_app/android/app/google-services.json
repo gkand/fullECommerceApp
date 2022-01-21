@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "912848021220",
+    "project_id": "e-commerce-app-6cad9",
+    "storage_bucket": "e-commerce-app-6cad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912848021220:android:04dc4f7b4835816db5eef1",
+        "android_client_info": {
+          "package_name": "com.birkingokhan.full_ecommerce_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912848021220-q67hl7puc7ulhfa810vf2906nd3vok25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.birkingokhan.full_ecommerce_app",
+            "certificate_hash": "38182bc1a1ff2cbf857c52c2c34f5744e32af74a"
+          }
+        },
+        {
+          "client_id": "912848021220-3336c7dsjev903g991e4dh5a366fh1if.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5ev4N8SMp9ieRlQ6uATXW57Mj57UYC2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912848021220-3336c7dsjev903g991e4dh5a366fh1if.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

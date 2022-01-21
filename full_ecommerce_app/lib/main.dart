@@ -3,6 +3,7 @@ import 'package:full_ecommerce_app/models%20&%20providers/cart.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/my_theme.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
+import 'package:full_ecommerce_app/screens/auth/auth_stream.dart';
 import 'package:full_ecommerce_app/screens/auth/login_screen.dart';
 import 'package:full_ecommerce_app/screens/auth/signup_screen.dart';
 import 'package:full_ecommerce_app/screens/bottom_nav_screen.dart';
@@ -19,8 +20,13 @@ import 'package:full_ecommerce_app/screens/upload_product_screen.dart';
 import 'package:full_ecommerce_app/screens/user_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -40,7 +46,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: MyAppTheme.myThemes(notifier.isDark, context),
           debugShowCheckedModeBanner: false,
-          home: const MainScreen(),
+          home: const AuthStateScreen(),
           routes: {
             BottomNavScreen.routeName: (ctx) => const BottomNavScreen(),
             HomeScreen.routeName: (ctx) => const HomeScreen(),
