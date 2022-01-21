@@ -28,7 +28,7 @@ class _UserScreenState extends State<UserScreen> {
   late String _email = 'Anonymous';
   late String _joinedAt = 'Anonymous';
   late int _phoneNumber = 0;
-  late String _imageUrl;
+  String? _imageUrl;
   bool _isLoading = true;
 
   late ScrollController _scrollController;
