@@ -22,7 +22,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen> {
   double top = 0;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   late String _uid;
   late String _name = 'Anonymous';
   late String _email = 'Anonymous';

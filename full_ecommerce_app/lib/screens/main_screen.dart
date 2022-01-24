@@ -9,7 +9,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      children: [
+      children: const [
         BottomNavScreen(),
         UploadProductScreen(),
       ],

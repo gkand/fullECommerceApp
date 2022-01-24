@@ -14,7 +14,6 @@ import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/categories_feed_screen.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/product_detail_screen.dart';
 import 'package:full_ecommerce_app/screens/landing_screen.dart';
-import 'package:full_ecommerce_app/screens/main_screen.dart';
 import 'package:full_ecommerce_app/screens/search_screen.dart';
 import 'package:full_ecommerce_app/screens/upload_product_screen.dart';
 import 'package:full_ecommerce_app/screens/user_screen.dart';

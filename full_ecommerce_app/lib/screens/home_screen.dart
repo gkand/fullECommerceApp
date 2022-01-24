@@ -1,12 +1,15 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:badges/badges.dart';
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/product.dart';
 import 'package:full_ecommerce_app/models%20&%20providers/wishlist.dart';
 import 'package:full_ecommerce_app/screens/feeds_screen.dart';
 import 'package:full_ecommerce_app/screens/inner_screens/brands_nav_rail.dart';
+import 'package:full_ecommerce_app/screens/user_screen.dart';
 import 'package:full_ecommerce_app/screens/wishlist_screen.dart';
 import 'package:full_ecommerce_app/widgets/back_layer.dart';
 import 'package:full_ecommerce_app/widgets/category.dart';
@@ -39,6 +42,31 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/images/nike.jpeg',
     'assets/images/samsung.jpeg',
   ];
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late String _uid;
+  User? user;
+  String? _imageUrl;
+
+  Future<void> _getData() async {
+    User? user = await _auth.currentUser;
+    _uid = user!.uid;
+
+    if (user.isAnonymous) {
+      return;
+    } else {
+      final DocumentSnapshot userDocs =
+          await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+      setState(() {
+        _imageUrl = userDocs.get('imageUrl');
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +99,16 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             IconButton(
-              onPressed: () {},
-              icon: const CircleAvatar(
+              onPressed: () {
+                Navigator.of(context).pushNamed(UserScreen.routeName);
+              },
+              icon: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
                   radius: 14,
                   backgroundImage: NetworkImage(
-                    "https://avatars0.githubusercontent.com/u/8186664?s=460&u=f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8&v=4",
+                    _imageUrl ??
+                        "https://avatars0.githubusercontent.com/u/8186664?s=460&u=f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8f9f8b8d8&v=4",
                   ),
                 ),
               ),
