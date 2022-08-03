@@ -121,9 +121,6 @@ class _UploadProductScreenState extends State<UploadProductScreen> {
                           valText: 'Please enter a title',
                           labelText: 'Price',
                           textInputType: TextInputType.number,
-                          filteringTextInput: [
-                            FilteringTextInputFormatter.allow(RegExp('r[0-9]')),
-                          ],
                         ),
                       ),
                     ],
